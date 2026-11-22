@@ -1,0 +1,13 @@
+{
+  "name": "ad-hazricha-web",
+  "version": "1.0.0",
+  "private": true,
+  "description": "עד הזריחה – גרסת דפדפן",
+  "scripts": {
+    "build": "esbuild src/main.js --bundle --minify --format=iife --target=es2020 --outfile=dist/game.js --legal-comments=none",
+    "dev": "esbuild src/main.js --bundle --format=iife --target=es2020 --outfile=dist/game.js --sourcemap --watch",
+    "serve": "python3 -m http.server 8080"
+  },
+  "dependencies": { "three": "0.160.0", "peerjs": "1.5.4" },
+  "devDependencies": { "esbuild": "0.20.2" }
+}

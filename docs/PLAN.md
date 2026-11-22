@@ -1,0 +1,48 @@
+# תוכנית עבודה וארכיטקטורה – "עד הזריחה"
+
+## פרקים
+| # | שם | ליבה | זמן משוער |
+|---|---|---|---|
+| 1 | המסיבה | קאטסין פתיחה, סיור חופשי, שיחות, מיני־משחקים (DJ קצב, בר, סלפי, משחק תופים), הצמיד והרשימה, ההבטחה לזריחה, אוהל | 10–15 ד' |
+| 2 | הבוקר, הבריחה והתפיסה | התעוררות לאזעקה, איבוד שחר, בריחה ב־3 מסלולים (רגלית / רכב / מסתור), צ'קפוינטים, תפיסה (ג'אמפסקייר מותאם מסלול) | 10–15 ד' |
+| 3 | המנהרה | אסתר, עידו, מאיר; קוד טפיחות, כלי עזר, הסחה בניגון, בחירות אמון, סטלת' בין פנסים, יציאה מפתח צר | 12–15 ד' |
+| 4 | בחוץ | המפה (קאטסין), מיני־מפה, רכבים, סיורים ומחסום, פנסים, תפיסה מפתיעה, העברה למטוס | 10–15 ד' |
+| 5 | המטוס | עלייה, שחר והצמיד התאום, בקשת אישור, השירותים (קאטסין), חזרה למושב | 8–10 ד' |
+| 6 | הקפיצה והבית | הרגע במושב, צביקה והמצנח, המשואה, הדלת, צניחה, נחיתה, איחוד, אפילוג, הקדשה | 10–12 ד' |
+
+## ארכיטקטורה – דפדפן (`/web`)
+```
+web/
+  index.html            ← נקודת כניסה יחידה (סקריפט קלאסי, עובד מאחסון סטטי)
+  dist/game.js          ← באנדל esbuild (נבנה מ-src, מחויב ל-repo)
+  assets/tex, hdri      ← Poly Haven CC0
+  src/
+    main.js             ← אתחול: אזהרה → טעינה → לובי → משחק
+    config/             ← texts.he.js (כל הטקסטים), grades.js, game.config.js
+    core/               ← engine (רנדר+פוסט), audio (סינתזה), input, ui, player (FPS),
+                          viewmodel (ידיים), character (דמויות פרוצדורליות), director (קאטסינס),
+                          story (פרקים/צ'קפוינטים), net (PeerJS), admin, physics, vehicle
+    world/              ← terrain, props, materials, fx
+    chapters/           ← ch1..ch6
+```
+- **מולטיפלייר**: PeerJS (WebRTC) בטופולוגיית כוכב: המארח הוא הסמכות לדגלי עלילה, פאזלים ומעברי פרק. מצב שחקנים ב-15Hz עם אינטרפולציה.
+- **רינדור**: Three.js r160, PBR, צללים, HDRI, EffectComposer (GTAO, Bloom, Bokeh, Grade/Grain/Vignette/CA/Motion-blur רדיאלי), רזולוציה דינמית ל-60FPS.
+- **קול**: WebAudio בלבד: סינתזה פרוצדורלית של כל הצלילים והמוזיקה (מקורי, ללא זכויות), HRTF ו-Convolution reverb.
+
+## ארכיטקטורה – Roblox (`/roblox`)
+```
+roblox/
+  lobby.project.json    ← מקום הלובי (Rojo)
+  game.project.json     ← מקום המשחק (Rojo)
+  src/shared/           ← Texts (עברית), Config, Grades, Net (RemoteEvents), Util
+  src/lobby/            ← שרת: פורטלים, ReservedServer; לקוח: UI לובי, הגדרות, מראה
+  src/game/server/      ← StoryService, ChapterBuilders, Enemies, Puzzles, Admin
+  src/game/client/      ← FirstPerson, Effects, Cinematics, UI, Audio, Chapters
+```
+
+## שלבים
+1. ✅ תוכנית + ארט דיירקשן
+2. אזהרה, לובי, הגדרות, אדמין, מולטיפלייר, פרק 1, פרק 2, התפיסה (שתי הגרסאות) → commit/push
+3. פרקים 3–4 → commit/push
+4. פרקים 5–6, אפילוג, קרדיטים → commit/push
+5. ליטוש, בדיקות קונסול, README סופי → commit/push
