@@ -124,7 +124,7 @@ export class Chapter1 extends Chapter {
     if (cp === 'free') { p.place(-2, LAYOUT.dance.z + 9, 0.3); this.begin(); UI.objective(CH1.objectives.findFriends); return; }
     this.intro();
   }
-  begin() { Music.set('party'); this.eng.set('fade', 0, 0.8); Input.lock(); this.started = true; this.t0 = this.eng.time; }
+  begin() { Music.set('party'); this.eng.set('fade', 0, 0.8); Input.lock(); this.started = true; this.t0 = this.eng.time; this.freeT = performance.now() / 1000; }
 
   async intro() {
     const e = this.eng, d = this.game.director, L = LAYOUT, p = this.player;
@@ -169,8 +169,6 @@ export class Chapter1 extends Chapter {
     this.crowdL.setVol(0.6, 1);
     this.game.setCheckpoint('disperse');
     UI.objective(CH1.objectives.explore);
-    await this.wait(55);
-    if (Net.isHost || !Net.online) Net.event('disperse');
   }
   onEvent(e, d) { if (e === 'disperse' && this.stage !== 'disperse' && this.stage !== 'tent') this.disperse(); if (e === 'sleep' && Net.isHost) { this.sleepers = (this.sleepers || 0) + 1; if (this.sleepers >= Net.count()) this.game.goChapter(2); } }
 
@@ -243,12 +241,18 @@ export class Chapter1 extends Chapter {
     if (!this.started) return;
     // מציאת החברים
     if (!this.flags.metFriends && p.pos.distanceTo(this.yoni.root.position) < 8 && !this.flags.saw) { this.flags.saw = true; this.yoni.ch.setState('wave'); setTimeout(() => this.yoni.ch.setState('dance'), 2500); }
-    if (this.flags.metFriends && !this.flags.freeSet) { this.flags.freeSet = true; this.marker.set(null); UI.objective(CH1.objectives.explore); this.game.setCheckpoint('free'); this.freeT = t; }
-    // מעבר לשחר: אחרי לפחות 2 פעילויות ודקה וחצי, או 4 דקות
-    if (this.flags.freeSet && this.stage === 'free' && ((this.activities.size >= 2 && t - this.freeT > 90) || t - this.freeT > 240)) {
+    if (this.flags.metFriends && !this.flags.freeSet) { this.flags.freeSet = true; this.marker.set(null); UI.objective(CH1.objectives.explore); this.game.setCheckpoint('free'); }
+    // ציר זמן קצר: ~20 שניות חופשי → שחר מגיעה אל השחקן; ~45 שניות → פיזור לאוהלים ושינה
+    const free = performance.now() / 1000 - this.freeT; // זמן אמיתי – לא תלוי ב-FPS
+    if (this.stage === 'free' && free > 20 && !this.flags.promised && !this.busy) {
+      this.stage = 'shachar'; UI.objective(CH1.objectives.shachar); this.marker.set(this.shachar.root); this.game.setCheckpoint('shachar');
+      this.shachar.idleState = 'idle'; this.shachar.ch.setState('idle');
+      const dir = this.shachar.root.position.clone().sub(p.pos).setY(0).normalize();
+      this.shachar.goTo(p.pos.clone().addScaledVector(dir, 1.8), { speed: 2.6 }).then(() => this.shachar.face(this.player.pos));
+    }
+    if ((this.stage === 'free' || this.stage === 'shachar') && ((free > 45 && this.flags.promised) || free > 75) && !this.busy) {
       this.stage = 'pre';
-      this.busy = true; this.maya.ch.lookAt(this.eng.camera.position);
-      UI.lines(CH1.dlg.maya_hint.lines, { maya: this.maya.ch }).then(() => { this.busy = false; this.maya.ch.lookAt(null); this.goShachar(); this.game.setCheckpoint('shachar'); });
+      if (Net.isHost || !Net.online) Net.event('disperse');
     }
     // ריקוד (Q)
     const onFloor = Math.hypot(p.pos.x - LAYOUT.dance.x, p.pos.z - LAYOUT.dance.z) < 16 && this.stage !== 'tent' && this.stage !== 'disperse';

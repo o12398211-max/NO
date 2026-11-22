@@ -1,4 +1,3 @@
---!strict
 -- ═══════════════════════════════════════════════════════════════════
 --  כל הטקסטים במשחק – עברית בלבד. אין טקסט גלוי לשחקן מחוץ לקובץ הזה.
 --  מחרוזת יכולה להיות טקסט רגיל או { m = "...", f = "..." } לפנייה מגדרית.
@@ -284,11 +283,11 @@ T.Credits = {
 }
 
 --- מחזיר טקסט לפי פנייה ומחליף {name}
-function T.F(s: any, gender: string?, name: string?): string
+function T.F(s, gender, name)
 	if s == nil then
 		return ""
 	end
-	local out: string
+	local out
 	if typeof(s) == "table" then
 		out = (gender == "f") and s.f or s.m
 	else
