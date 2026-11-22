@@ -118,10 +118,24 @@ local function chapter2()
 	TweenService:Create(blur, TweenInfo.new(4), { Size = 0 }):Play()
 	sub(T.CH2.Alarm, 3); task.wait(3); sub(T.CH2.Wake, 2); task.wait(2.5); sub(T.CH2.Shachar, 3)
 end
+local STORY = {
+	{ "פרק שלישי – המנהרה", "אסתר: שקט. את/ה איתנו. אני אסתר. זה עידו, וזה מאיר.", "אסתר: \"מים\". הפתח במים. התעלה שמתחת לרצפה.", "עידו מנגן על הצינור – ההד מושך את השומרים", "אסתר: אני נשארת. מישהו צריך לשמור על כולם. לך/י." },
+	{ "פרק רביעי – בחוץ", "המפה: נקודה מסומנת רחוק", "להסתתר מהסיורים ולהגיע לנקודה", "פנסים נדלקים בבת אחת…" },
+	{ "פרק חמישי – המטוס", "שחר… הצמיד התאום", "צריך לשירותים", "במגירה מתחת לכיור…" },
+	{ "פרק שישי – הבית", "צביקה: קח/י. היא כבר ארוזה. והמשואה בכיס הקדמי.", "הקפיצה", "המשואה הובילה את חיל האוויר למטוס, והוא נחת בבטחה עם כל נוסעיו.", "שחר: אמרתי לך. בזריחה. ביחד.", T.Dedication },
+}
+local function storyChapters()
+	for _, ch in ipairs(STORY) do
+		fadeTo(1, 1); task.wait(1.2); fadeTo(0, 1)
+		for _, line in ipairs(ch) do sub(line, 4.5); task.wait(4.8) end
+	end
+end
 Remotes.Story.OnClientEvent:Connect(function(kind, n)
 	if kind == "chapter" then
 		fadeTo(1, 0.6); task.wait(0.7)
 		if n == 1 then chapter1(); chapter2() elseif n == 2 then chapter2() end
+		if n <= 2 then task.wait(20) end
+		storyChapters()
 	end
 end)
 
