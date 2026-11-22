@@ -29,20 +29,9 @@ web/
 - **רינדור**: Three.js r160, PBR, צללים, HDRI, EffectComposer (GTAO, Bloom, Bokeh, Grade/Grain/Vignette/CA/Motion-blur רדיאלי), רזולוציה דינמית ל-60FPS.
 - **קול**: WebAudio בלבד: סינתזה פרוצדורלית של כל הצלילים והמוזיקה (מקורי, ללא זכויות), HRTF ו-Convolution reverb.
 
-## ארכיטקטורה – Roblox (`/roblox`)
-```
-roblox/
-  lobby.project.json    ← מקום הלובי (Rojo)
-  game.project.json     ← מקום המשחק (Rojo)
-  src/shared/           ← Texts (עברית), Config, Grades, Net (RemoteEvents), Util
-  src/lobby/            ← שרת: פורטלים, ReservedServer; לקוח: UI לובי, הגדרות, מראה
-  src/game/server/      ← StoryService, ChapterBuilders, Enemies, Puzzles, Admin
-  src/game/client/      ← FirstPerson, Effects, Cinematics, UI, Audio, Chapters
-```
-
 ## שלבים
 1. ✅ תוכנית + ארט דיירקשן
-2. אזהרה, לובי, הגדרות, אדמין, מולטיפלייר, פרק 1, פרק 2, התפיסה (שתי הגרסאות) → commit/push
+2. אזהרה, לובי, הגדרות, אדמין, מולטיפלייר, פרק 1, פרק 2, התפיסה → commit/push
 3. פרקים 3–4 → commit/push
 4. פרקים 5–6, אפילוג, קרדיטים → commit/push
 5. ליטוש, בדיקות קונסול, README סופי → commit/push
