@@ -4,7 +4,7 @@
   "private": true,
   "description": "עד הזריחה – גרסת דפדפן",
   "scripts": {
-    "build": "esbuild src/main.js --bundle --minify --format=iife --target=es2020 --outfile=dist/game.js --legal-comments=none",
+    "build": "esbuild src/main.js --bundle --minify --format=iife --target=es2020 --outfile=dist/game.js --legal-comments=none --charset=utf8",
     "dev": "esbuild src/main.js --bundle --format=iife --target=es2020 --outfile=dist/game.js --sourcemap --watch",
     "serve": "python3 -m http.server 8080"
   },
