@@ -55,3 +55,6 @@ cd roblox && rojo serve
 - **מנוע:** three.js (MIT) · **רשת:** PeerJS (MIT) · **גופנים:** Heebo, Frank Ruhl Libre (OFL)
 - **מוזיקה וסאונד:** מקוריים, מסונתזים בקוד בזמן אמת (WebAudio).
 - **דמויות ועולם:** נבנו פרוצדורלית בקוד (SkinnedMesh עם שלד).
+
+## פריסה ב-Render (אופציונלי)
+ב-root יש קובץ `render.yaml` (Blueprint). ב-Render בוחרים New ← Blueprint ← ה-repo הזה, והאתר הסטטי נפרס מתיקיית `web` בלי צורך בבנייה.

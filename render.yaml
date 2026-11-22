@@ -1,0 +1,24 @@
+# Render Blueprint – גרסת הדפדפן של "עד הזריחה" כאתר סטטי
+# הקובץ dist/game.js כבר בנוי ומחויב ל-repo, ולכן אין צורך ב-build.
+services:
+  - type: web
+    name: ad-hazricha
+    runtime: static
+    rootDir: web
+    buildCommand: echo "static site – prebuilt"
+    staticPublishPath: .
+    pullRequestPreviewsEnabled: false
+    headers:
+      - path: /*
+        name: X-Content-Type-Options
+        value: nosniff
+      - path: /assets/*
+        name: Cache-Control
+        value: public, max-age=604800
+      - path: /dist/*
+        name: Cache-Control
+        value: public, max-age=3600
+    routes:
+      - type: rewrite
+        source: /
+        destination: /index.html
