@@ -1,0 +1,85 @@
+base: luau
+name: roblox
+globals:
+  game:
+    any: true
+  workspace:
+    any: true
+  script:
+    any: true
+  Instance:
+    any: true
+  Vector3:
+    any: true
+  Vector2:
+    any: true
+  CFrame:
+    any: true
+  Color3:
+    any: true
+  UDim:
+    any: true
+  UDim2:
+    any: true
+  Enum:
+    any: true
+  task:
+    any: true
+  Random:
+    any: true
+  NumberSequence:
+    any: true
+  ColorSequence:
+    any: true
+  NumberSequenceKeypoint:
+    any: true
+  ColorSequenceKeypoint:
+    any: true
+  NumberRange:
+    any: true
+  TweenInfo:
+    any: true
+  RaycastParams:
+    any: true
+  PhysicalProperties:
+    any: true
+  Font:
+    any: true
+  utf8:
+    any: true
+  typeof:
+    any: true
+  warn:
+    any: true
+  tick:
+    any: true
+  Rect:
+    any: true
+  Region3:
+    any: true
+  DateTime:
+    any: true
+  OverlapParams:
+    any: true
+  BrickColor:
+    any: true
+  Ray:
+    any: true
+  Axes:
+    any: true
+  Faces:
+    any: true
+  shared:
+    any: true
+  plugin:
+    any: true
+  delay:
+    any: true
+  spawn:
+    any: true
+  wait:
+    any: true
+  settings:
+    any: true
+  UserSettings:
+    any: true
